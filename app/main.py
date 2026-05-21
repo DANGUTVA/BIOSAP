@@ -25,14 +25,24 @@ MOCK_MODE = os.getenv("SAP_MOCK_MODE", "true").lower() == "true"
 if not MOCK_MODE:
 
     @st.cache_resource(show_spinner="Instalando Chromium para SAP...")
-    def _install_playwright() -> None:
-        subprocess.run(
-            [sys.executable, "-m", "playwright", "install", "chromium"],
-            check=True,
-            capture_output=True,
-        )
+    def _install_playwright() -> bool:
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "playwright", "install", "chromium"],
+                check=False,
+                capture_output=True,
+                timeout=120,
+            )
+            if result.returncode != 0:
+                st.warning(f"Chromium no se pudo instalar (código {result.returncode}). La app funcionará en modo simulación.")
+                return False
+            return True
+        except Exception as exc:
+            st.warning(f"Error instalando Chromium: {exc}. Modo simulación activado.")
+            return False
 
-    _install_playwright()
+    if not _install_playwright():
+        os.environ["SAP_MOCK_MODE"] = "true"
 # ─────────────────────────────────────────────────────────────────────
 
 
