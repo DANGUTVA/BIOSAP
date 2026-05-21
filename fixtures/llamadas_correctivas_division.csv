@@ -1,0 +1,3 @@
+División,Número de Serie,Serial Interno,Código Equipo,Equipo,Código Cliente,Cliente,Contrato,Cantidad Llamadas Correctivas
+Imágenes Médicas,SN-IMG-001,INT-IMG-001,RX-01,Rayos X Digital,C001,Hospital A,Sin_Contrato,8
+Imágenes Médicas,SN-IMG-002,INT-IMG-002,US-01,Ultrasonido 4D,C002,Clínica B,Sin_Contrato,4

@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#6366F1"            # Indigo moderno para acentos y elementos principales
+backgroundColor = "#0F172A"         # Fondo oscuro Slate 900
+secondaryBackgroundColor = "#1E293B"   # Sidebar y contenedores Slate 800
+textColor = "#F8FAFC"               # Texto claro Slate 50
+font = "sans serif"

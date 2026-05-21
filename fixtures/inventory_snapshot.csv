@@ -1,0 +1,4 @@
+ItemCode,WhsCode,OnHand,IsCommited,OnOrder
+I1000,01,120,14,20
+I1001,01,85,10,0
+I1002,02,45,3,60

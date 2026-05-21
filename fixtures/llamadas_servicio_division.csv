@@ -1,0 +1,22 @@
+División,Marca,Modelo,Número Serie,Código Cliente,Cliente,Tipo Llamada,Fecha Llamada,Estado Garantía,Vencimiento Garantía
+Imágenes Médicas,GE,OPTIMA CT540,650017,C10001,Hospital Calderón Guardia,1,2024-03-10,En Garantía,2025-06-30
+Imágenes Médicas,GE,OPTIMA CT540,650017,C10001,Hospital Calderón Guardia,2,2024-06-22,En Garantía,2025-06-30
+Imágenes Médicas,GE,OPTIMA CT540,650017,C10001,Hospital Calderón Guardia,1,2024-09-05,En Garantía,2025-06-30
+Imágenes Médicas,Philips,Ingenia Ambition 1.5T,770025,C10002,Clínica Bíblica,1,2023-08-20,En Garantía,2024-12-15
+Imágenes Médicas,Philips,Ingenia Ambition 1.5T,770025,C10002,Clínica Bíblica,2,2023-11-05,En Garantía,2024-12-15
+Imágenes Médicas,Philips,Ingenia Ambition 1.5T,770025,C10002,Clínica Bíblica,2,2024-02-14,En Garantía,2024-12-15
+Imágenes Médicas,Philips,Ingenia Ambition 1.5T,770025,C10002,Clínica Bíblica,1,2024-05-30,En Garantía,2024-12-15
+Imágenes Médicas,Siemens,SOMATOM X.cite,880033,C10003,Hospital México,2,2024-04-15,En Garantía,2025-09-20
+Imágenes Médicas,Siemens,SOMATOM X.cite,880033,C10003,Hospital México,1,2024-06-10,En Garantía,2025-09-20
+Imágenes Médicas,Siemens,SOMATOM X.cite,880033,C10003,Hospital México,2,2024-07-28,En Garantía,2025-09-20
+Imágenes Médicas,Siemens,SOMATOM X.cite,880033,C10003,Hospital México,1,2024-10-22,En Garantía,2025-09-20
+Imágenes Médicas,GE,LOGIQ E10,650100,C10004,Hospital Nacional de Niños,1,2023-10-15,Vencida,2024-03-15
+Imágenes Médicas,GE,LOGIQ E10,650100,C10004,Hospital Nacional de Niños,2,2024-01-08,Vencida,2024-03-15
+Imágenes Médicas,GE,LOGIQ E10,650100,C10004,Hospital Nacional de Niños,2,2024-03-20,Vencida,2024-03-15
+Imágenes Médicas,Toshiba,Aprio 500,990050,C10005,Centro Médico San Pedro,1,2024-07-12,En Garantía,2025-11-01
+Imágenes Médicas,Toshiba,Aprio 500,990050,C10005,Centro Médico San Pedro,1,2024-11-20,En Garantía,2025-11-01
+Imágenes Médicas,Sonosite,Edge II,100001,C10006,Hospital San Juan de Dios,1,2024-04-10,En Garantía,2025-08-15
+Imágenes Médicas,Sonosite,Edge II,100001,C10006,Hospital San Juan de Dios,2,2024-08-20,En Garantía,2025-08-15
+Imágenes Médicas,Sonosite,Edge II,100001,C10006,Hospital San Juan de Dios,1,2024-12-05,En Garantía,2025-08-15
+Imágenes Médicas,Sonosite,M-Turbo,200002,C10007,Clínica Católica,2,2024-07-15,En Garantía,2025-12-01
+Imágenes Médicas,Sonosite,M-Turbo,200002,C10007,Clínica Católica,1,2024-09-22,En Garantía,2025-12-01

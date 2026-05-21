@@ -1,0 +1,181 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+/* Apply font globally */
+html, body, [class*="css"], .stMarkdown, .stButton, .stSelectbox, .stTextInput, .stRadio, .stMultiSelect {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* Custom Title Gradient */
+.title-gradient {
+    background: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+    letter-spacing: -0.02em;
+}
+
+.subtitle-desc {
+    color: #94A3B8;
+    font-size: 1rem;
+    margin-top: 0px;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+/* Hide Streamlit default branding */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+[data-testid="stHeader"] {background: rgba(0,0,0,0) !important;}
+
+/* Style buttons */
+div.stButton > button {
+    border-radius: 8px !important;
+    border: 1px solid #334155 !important;
+    background-color: #1E293B !important;
+    color: #F8FAFC !important;
+    padding: 0.5rem 1.2rem !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-weight: 600 !important;
+}
+
+div.stButton > button:hover {
+    border-color: #6366F1 !important;
+    color: #6366F1 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12) !important;
+}
+
+div.stButton > button:active {
+    transform: translateY(0px) !important;
+}
+
+/* Primary buttons */
+div.stButton > button[type="primary"] {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+div.stButton > button[type="primary"]:hover {
+    background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* Sidebar Styling */
+[data-testid="stSidebar"] {
+    border-right: 1px solid #1E293B !important;
+}
+
+[data-testid="stSidebar"] .stRadio > label {
+    font-weight: 700 !important;
+    color: #94A3B8 !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.8rem !important;
+}
+
+/* Custom Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.status-badge.live {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.status-badge.mock {
+    background-color: rgba(100, 116, 139, 0.15);
+    color: #94A3B8;
+    border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* Beautiful custom metric cards */
+.metric-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    height: 100%;
+}
+.metric-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.08);
+}
+.metric-card-title {
+    font-size: 0.85rem;
+    color: #94A3B8;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.metric-card-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #F8FAFC;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+.metric-card-delta {
+    font-size: 0.75rem;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* Metric Colors */
+.metric-ok {
+    border-left: 4px solid #10B981 !important;
+}
+.metric-warn {
+    border-left: 4px solid #F59E0B !important;
+}
+.metric-danger {
+    border-left: 4px solid #EF4444 !important;
+}
+
+/* Styled Tabs */
+div[data-testid="stTabBar"] {
+    background-color: transparent !important;
+    border-bottom: 1px solid #1E293B !important;
+    gap: 8px !important;
+}
+div[data-testid="stTabBar"] button {
+    background-color: transparent !important;
+    border: none !important;
+    color: #64748B !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    padding: 8px 16px !important;
+    transition: all 0.2s ease !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+div[data-testid="stTabBar"] button:hover {
+    color: #F8FAFC !important;
+}
+div[data-testid="stTabBar"] button[aria-selected="true"] {
+    color: #6366F1 !important;
+    border-bottom: 2px solid #6366F1 !important;
+}
+
+/* Styled Table Container */
+.element-container iframe {
+    border-radius: 8px !important;
+}

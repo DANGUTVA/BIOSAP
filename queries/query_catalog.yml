@@ -1,0 +1,54 @@
+queries:
+  - id: sales_by_customer
+    name: Sales by Customer
+    description: Customer sales summary for dashboard
+    sql_path: queries/sql/sales_by_customer.sql
+    tags: [sales, customer]
+
+  - id: inventory_snapshot
+    name: Inventory Snapshot
+    description: Current inventory by item and warehouse
+    sql_path: queries/sql/inventory_snapshot.sql
+    tags: [inventory]
+
+  - id: llamadas_correctivas_serial
+    name: Llamadas Correctivas por Numero de Serie
+    description: Corrective service calls filtered by serial number (no contract)
+    sql_path: queries/sql/llamadas_correctivas_serial.sql
+    tags: [correctivas, garantia, biomedico]
+
+  - id: llamadas_correctivas_division
+    name: Llamadas Correctivas por Division
+    description: Corrective service calls filtered by division (no contract)
+    sql_path: queries/sql/llamadas_correctivas_division.sql
+    tags: [correctivas, division, biomedico]
+
+  - id: garantias_90_dias
+    name: Garantia a Vencer en 90 Dias
+    description: Warranties expiring within 90 days with corrective call count
+    sql_path: queries/sql/garantias_90_dias.sql
+    tags: [garantias, vencimiento, biomedico]
+
+  - id: pipeline_comercial
+    name: Pipeline Comercial Imágenes Médicas
+    description: Commercial pipeline with opportunity stages for biomedical division
+    sql_path: queries/sql/pipeline_comercial.sql
+    tags: [pipeline, comercial, biomedico]
+
+  - id: inteligencia_comercial
+    name: Inteligencia Comercial
+    description: Commercial intelligence with contracts, pricing, PM/corrective history and locations (DEPRECATED - use separate queries)
+    sql_path: queries/sql/inteligencia_comercial.sql
+    tags: [inteligencia, comercial, biomedico, contratos]
+
+  - id: contratos_biomedicos
+    name: Contratos Biomédicos
+    description: Service contracts with pricing and locations for biomedical division (simple OCTR+CTR1+OITM query)
+    sql_path: queries/sql/contratos_biomedicos.sql
+    tags: [contratos, comercial, biomedico]
+
+  - id: llamadas_servicio_division
+    name: Llamadas de Servicio por Division
+    description: All service calls (PM + corrective) with manufacturer and dates for biomedical division
+    sql_path: queries/sql/llamadas_servicio_division.sql
+    tags: [servicio, correctivas, preventivas, biomedico]
