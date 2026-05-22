@@ -1,7 +1,7 @@
 """Use case: run SAP query."""
 
-import asyncio
 import pandas as pd
+from app.utils.async_runner import run_async
 from domain.contracts.ports import QueryCatalogPort, SapQueryGateway
 
 
@@ -20,7 +20,7 @@ class RunQueryUseCase:
         param_overrides: dict[int, str] | None = None,
     ) -> tuple[dict, pd.DataFrame]:
         meta, sql_text = self._catalog.get_query_sql(query_id)
-        df = asyncio.run(
+        df = run_async(
             self._gateway.run_query(
                 query_id=query_id,
                 sql_text=sql_text,

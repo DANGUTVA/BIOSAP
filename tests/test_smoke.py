@@ -1,5 +1,5 @@
-import asyncio
 from app.config.settings import Settings
+from app.utils.async_runner import run_async
 from application.use_cases.compute_kpis import ComputeKpisUseCase
 from application.use_cases.search_data import SearchDataUseCase
 from infrastructure.query_catalog import QueryCatalogAdapter
@@ -14,14 +14,14 @@ def test_settings_defaults() -> None:
 def test_mock_query_execution() -> None:
     settings = Settings(sap_mock_mode=True, mock_fixtures_path="fixtures")
     executor = SapQueryExecutor(settings)
-    df = asyncio.run(executor.run_query("sales_by_customer", "SELECT 1", "test-cid"))
+    df = run_async(executor.run_query("sales_by_customer", "SELECT 1", "test-cid"))
     assert not df.empty
 
 
 def test_kpi_and_search_use_cases() -> None:
     settings = Settings(sap_mock_mode=True, mock_fixtures_path="fixtures")
     executor = SapQueryExecutor(settings)
-    df = asyncio.run(executor.run_query("inventory_snapshot", "SELECT 1", "test-cid"))
+    df = run_async(executor.run_query("inventory_snapshot", "SELECT 1", "test-cid"))
 
     kpis = ComputeKpisUseCase().execute(df)
     assert kpis.total_rows == len(df)

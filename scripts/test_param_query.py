@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-import asyncio
 import os
 from pathlib import Path
+
+from app.utils.async_runner import run_async
 
 # Set query-specific parameter BEFORE importing settings
 # Replace with a real serial number from your SAP system
@@ -38,7 +39,7 @@ def main() -> int:
     if not settings.sap_mock_mode:
         print("Running against live SAP (this may take a while)...")
         try:
-            df = asyncio.run(executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test"))
+            df = run_async(executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test"))
             print(f"Query returned {len(df)} rows")
             print(df.head(10))
         except Exception as exc:
@@ -46,7 +47,7 @@ def main() -> int:
             return 0  # Not a failure of the param resolution
     else:
         print("Mock mode enabled, loading fixture...")
-        df = asyncio.run(executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test"))
+        df = run_async(executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test"))
         print(f"Mock query returned {len(df)} rows")
         print(df.head(10))
 
