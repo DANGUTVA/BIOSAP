@@ -23,30 +23,23 @@ from interfaces.streamlit.services import build_services
 
 
 # ── Playwright browser install (Streamlit Cloud) ──────────────────────
-# Streamlit Cloud has no build step, so we install Chromium at cold start.
-# Only runs once per deploy via st.cache_resource.
+# Streamlit Cloud has no build step — install Chromium at cold start.
+# Use a file flag so we only download once per container lifetime.
 MOCK_MODE = os.getenv("SAP_MOCK_MODE", "true").lower() == "true"
+_PW_FLAG = Path("/tmp/.playwright_chromium_installed")
 
-if not MOCK_MODE:
-
-    @st.cache_resource(show_spinner="Instalando Chromium para SAP...")
-    def _install_playwright() -> bool:
-        try:
-            result = subprocess.run(
-                [sys.executable, "-m", "playwright", "install", "chromium"],
-                check=False,
-                capture_output=True,
-                timeout=120,
-            )
-            if result.returncode != 0:
-                st.warning(f"Chromium no se pudo instalar (código {result.returncode}). La app funcionará en modo simulación.")
-                return False
-            return True
-        except Exception as exc:
-            st.warning(f"Error instalando Chromium: {exc}. Modo simulación activado.")
-            return False
-
-    if not _install_playwright():
+if not MOCK_MODE and not _PW_FLAG.exists():
+    print("[SAP] Instalando Chromium (esto toma ~30s la primera vez)...", flush=True)
+    try:
+        subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"],
+            check=True,
+            timeout=180,
+        )
+        _PW_FLAG.touch()
+        print("[SAP] Chromium instalado correctamente.", flush=True)
+    except Exception as exc:
+        print(f"[SAP] Chromium falló: {exc}. Cambiando a modo simulación.", flush=True)
         os.environ["SAP_MOCK_MODE"] = "true"
 # ─────────────────────────────────────────────────────────────────────
 
