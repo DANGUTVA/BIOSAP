@@ -6,9 +6,9 @@ import pandas as pd
 
 
 class SapQueryGateway(Protocol):
-    """Gateway that executes query and returns DataFrame."""
+    """Gateway that executes query and returns DataFrame (async)."""
 
-    def run_query(
+    async def run_query(
         self,
         query_id: str,
         sql_text: str,

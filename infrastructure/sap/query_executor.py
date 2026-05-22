@@ -1,4 +1,4 @@
-"""SAP query execution adapter with retry and mock fallback."""
+"""SAP query execution adapter with retry and mock fallback (async)."""
 
 from pathlib import Path
 import pandas as pd
@@ -29,7 +29,7 @@ EXECUTE_BUTTON_FALLBACKS: tuple[str, ...] = (
 
 
 class SapQueryExecutor:
-    """SAP gateway implementation used by the RunQuery use case."""
+    """SAP gateway implementation used by the RunQuery use case (async)."""
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -48,7 +48,7 @@ class SapQueryExecutor:
         wait=wait_exponential(multiplier=1, min=1, max=8),
         retry=retry_if_exception_type(SapQueryExecutionError),
     )
-    def run_query(
+    async def run_query(
         self,
         query_id: str,
         sql_text: str,
@@ -70,37 +70,37 @@ class SapQueryExecutor:
         effective_sql = self._resolve_sql_params(query_id, sql_text, param_overrides=param_overrides)
 
         try:
-            with PlaywrightClient(headless=self.settings.sap_headless) as browser:
-                page = browser.new_page()
-                self.session.login(
+            async with PlaywrightClient(headless=self.settings.sap_headless) as browser:
+                page = await browser.new_page()
+                await self.session.login(
                     page,
                     username=self.settings.sap_username,
                     password=self.settings.sap_password,
                     company_db=self.settings.sap_company_db,
                     correlation_id=correlation_id,
                 )
-                self.session.open_query_manager(page, correlation_id=correlation_id)
-                self._fill_first_available(page, QUERY_TEXTAREA_FALLBACKS, effective_sql, "Query textarea")
-                self._click_first_available(page, EXECUTE_BUTTON_FALLBACKS, "Execute button")
-                
+                await self.session.open_query_manager(page, correlation_id=correlation_id)
+                await self._fill_first_available(page, QUERY_TEXTAREA_FALLBACKS, effective_sql, "Query textarea")
+                await self._click_first_available(page, EXECUTE_BUTTON_FALLBACKS, "Execute button")
+
                 # SAP updates results asynchronously. We must wait for the table to appear.
                 # SAP queries can take 60-90+ seconds depending on data volume.
                 try:
-                    page.wait_for_selector("#result table", timeout=90000)
+                    await page.wait_for_selector("#result table", timeout=90000)
                 except Exception:
                     # Timeout waiting for table: capture state for diagnosis.
                     info_msg = ""
                     try:
-                        info_msg = page.locator("#infoMessages").text_content() or ""
+                        info_msg = await page.locator("#infoMessages").text_content() or ""
                     except Exception:
                         pass
-                    
+
                     if "error" in info_msg.lower():
                         raise SapQueryExecutionError(f"SAP query error: {info_msg}")
 
                     # Capture page state even on timeout for diagnosis
-                    self._capture_empty_result(page, query_id, correlation_id, reason="timeout", info_msg=info_msg)
-                    
+                    await self._capture_empty_result(page, query_id, correlation_id, reason="timeout", info_msg=info_msg)
+
                     self.logger.warning(
                         "Query %s returned no rows after 90s. InfoMessages: '%s'",
                         query_id,
@@ -108,13 +108,13 @@ class SapQueryExecutor:
                     )
                     return pd.DataFrame()
 
-                html = page.content()
+                html = await page.content()
                 df = self.parser.parse(html)
 
                 # Capture diagnostics when we get an empty result (no rows)
                 if df.empty:
-                    info_msg = self._read_info_messages(page)
-                    self._capture_empty_result(page, query_id, correlation_id, reason="empty", info_msg=info_msg)
+                    info_msg = await self._read_info_messages(page)
+                    await self._capture_empty_result(page, query_id, correlation_id, reason="empty", info_msg=info_msg)
                     self.logger.warning(
                         "Query %s succeeded but returned 0 rows. InfoMessages: '%s'",
                         query_id,
@@ -123,19 +123,21 @@ class SapQueryExecutor:
 
                 return df
         except Exception as exc:
-            detail = self._build_debug_detail(exc=exc, correlation_id=correlation_id, page=locals().get("page"))
+            detail = await self._build_debug_detail(exc=exc, correlation_id=correlation_id, page=locals().get("page"))
             base_message = f"SAP query failed for query_id={query_id}: {exc}"
             raise SapQueryExecutionError(f"{base_message}{detail}") from exc
 
     @staticmethod
-    def _read_info_messages(page: object) -> str:
+    async def _read_info_messages(page: object) -> str:
         """Read SAP infoMessages element content."""
         try:
-            return page.locator("#infoMessages").text_content() or ""
+            return await page.locator("#infoMessages").text_content() or ""
         except Exception:
             return ""
 
-    def _capture_empty_result(self, page: object, query_id: str, correlation_id: str, reason: str, info_msg: str) -> None:
+    async def _capture_empty_result(
+        self, page: object, query_id: str, correlation_id: str, reason: str, info_msg: str
+    ) -> None:
         """Capture page state for diagnosis when query returns no data."""
         if not self.settings.sap_debug_capture or not self._is_page_usable_for_capture(page):
             return
@@ -148,7 +150,7 @@ class SapQueryExecutor:
             stage=f"empty_{reason}_{query_id}",
         )
         try:
-            capture_page_artifacts(page, artifact_paths)
+            await capture_page_artifacts(page, artifact_paths)
             self.logger.info(
                 "Empty-result diagnostics saved: screenshot=%s, html=%s",
                 artifact_paths.screenshot_path,
@@ -157,7 +159,7 @@ class SapQueryExecutor:
         except Exception as exc:
             self.logger.warning("Failed to capture empty-result diagnostics: %s", exc)
 
-    def _build_debug_detail(self, exc: Exception, correlation_id: str, page: object | None) -> str:
+    async def _build_debug_detail(self, exc: Exception, correlation_id: str, page: object | None) -> str:
         if self._has_diagnostic_info(exc):
             return ""
         if (
@@ -174,7 +176,7 @@ class SapQueryExecutor:
             stage="query_execution",
         )
         try:
-            capture_page_artifacts(page, artifact_paths)
+            await capture_page_artifacts(page, artifact_paths)
             return (
                 " debug_artifacts="
                 f"screenshot:{artifact_paths.screenshot_path},html:{artifact_paths.html_path}"
@@ -311,19 +313,19 @@ class SapQueryExecutor:
         return resolved
 
     @staticmethod
-    def _fill_first_available(page: object, selectors: tuple[str, ...], value: str, context: str) -> str:
+    async def _fill_first_available(page: object, selectors: tuple[str, ...], value: str, context: str) -> str:
         for selector in selectors:
             locator = page.locator(selector)
-            if locator.count() > 0:
-                page.fill(selector, value)
+            if await locator.count() > 0:
+                await page.fill(selector, value)
                 return selector
         raise SapQueryExecutionError(f"{context} not found")
 
     @staticmethod
-    def _click_first_available(page: object, selectors: tuple[str, ...], context: str) -> str:
+    async def _click_first_available(page: object, selectors: tuple[str, ...], context: str) -> str:
         for selector in selectors:
             locator = page.locator(selector)
-            if locator.count() > 0:
-                page.click(selector)
+            if await locator.count() > 0:
+                await page.click(selector)
                 return selector
         raise SapQueryExecutionError(f"{context} not found")

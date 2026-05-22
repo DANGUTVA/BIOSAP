@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import os
 from pathlib import Path
 
@@ -37,7 +38,7 @@ def main() -> int:
     if not settings.sap_mock_mode:
         print("Running against live SAP (this may take a while)...")
         try:
-            df = executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test")
+            df = asyncio.run(executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test"))
             print(f"Query returned {len(df)} rows")
             print(df.head(10))
         except Exception as exc:
@@ -45,7 +46,7 @@ def main() -> int:
             return 0  # Not a failure of the param resolution
     else:
         print("Mock mode enabled, loading fixture...")
-        df = executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test")
+        df = asyncio.run(executor.run_query("llamadas_correctivas_serial", sql_text, "integration_test"))
         print(f"Mock query returned {len(df)} rows")
         print(df.head(10))
 

@@ -16,7 +16,10 @@ if str(_PROJECT_ROOT) not in sys.path:
 # Costa Rica timezone (UTC-6)
 CR_TZ = timezone(timedelta(hours=-6))
 
+import nest_asyncio
 import streamlit as st
+
+nest_asyncio.apply()
 
 from interfaces.streamlit.pages import dashboard, exports, inteligencia_comercial, search
 from interfaces.streamlit.services import build_services
