@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import pathlib
 from datetime import date
 
 import pandas as pd
@@ -384,10 +383,22 @@ def render(services: dict) -> None:
 
     col_exp1, col_exp2 = st.columns(2)
     with col_exp1:
-        if st.button("📄 Exportar CSV", use_container_width=True, key="export_intel_csv"):
-            path = services["export"].to_csv(export_df, pathlib.Path("outputs") / f"{filename}.csv")
-            st.success(f"✅ CSV: {path}")
+        csv_bytes = services["export"].to_csv(export_df)
+        st.download_button(
+            label="📄 Descargar CSV",
+            data=csv_bytes,
+            file_name=f"{filename}.csv",
+            mime="text/csv",
+            use_container_width=True,
+            key="download_intel_csv",
+        )
     with col_exp2:
-        if st.button("📊 Exportar XLSX", use_container_width=True, key="export_intel_xlsx"):
-            path = services["export"].to_xlsx(export_df, pathlib.Path("outputs") / f"{filename}.xlsx")
-            st.success(f"✅ XLSX: {path}")
+        xlsx_bytes = services["export"].to_xlsx(export_df)
+        st.download_button(
+            label="📊 Descargar XLSX",
+            data=xlsx_bytes,
+            file_name=f"{filename}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True,
+            key="download_intel_xlsx",
+        )

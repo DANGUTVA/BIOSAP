@@ -1,6 +1,5 @@
 """Ports/interfaces for application layer."""
 
-from pathlib import Path
 from typing import Protocol
 import pandas as pd
 
@@ -25,8 +24,8 @@ class QueryCatalogPort(Protocol):
 
 
 class DataExporterPort(Protocol):
-    """Exports DataFrame to file path."""
+    """Exports DataFrame to bytes for browser download."""
 
-    def export_csv(self, df: pd.DataFrame, target: Path) -> Path: ...
+    def export_csv(self, df: pd.DataFrame) -> bytes: ...
 
-    def export_xlsx(self, df: pd.DataFrame, target: Path) -> Path: ...
+    def export_xlsx(self, df: pd.DataFrame) -> bytes: ...
