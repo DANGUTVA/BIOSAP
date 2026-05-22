@@ -8,6 +8,11 @@ import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+# Ensure project root is on Python path (needed for Streamlit Cloud)
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 # Costa Rica timezone (UTC-6)
 CR_TZ = timezone(timedelta(hours=-6))
 
