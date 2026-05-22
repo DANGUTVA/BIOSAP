@@ -1,12 +1,9 @@
-# t64 packages (Debian Trixie time64 transition)
 libasound2t64
 libatk1.0-0t64
 libatk-bridge2.0-0t64
 libcups2t64
 libdbus-1-3t64
 libglib2.0-0t64
-
-# Non-t64 packages
 libcairo2
 libdrm2
 libgbm1
