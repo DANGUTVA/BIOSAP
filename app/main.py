@@ -25,7 +25,7 @@ from interfaces.streamlit.services import build_services
 # ── Playwright browser install (Streamlit Cloud) ──────────────────────
 # Streamlit Cloud has no build step — install Chromium at cold start.
 # Use a file flag so we only download once per container lifetime.
-MOCK_MODE = os.getenv("SAP_MOCK_MODE", "true").lower() == "true"
+MOCK_MODE = (os.getenv("SAP_MOCK_MODE") or os.getenv("sap_mock_mode") or "true").lower() == "true"
 _PW_FLAG = Path("/tmp/.playwright_chromium_installed")
 
 if not MOCK_MODE and not _PW_FLAG.exists():
